@@ -1,21 +1,19 @@
-// const add = (a, b) => {
-//   return a + b
-// }
+const {
+  tokenizer,
+  parser,
+  transformer,
+  codeGenerator,
+} = require('./util')
 
-// var add = function add(a, b) {
-//   return a + b;
-// };
+const input = `const add = (a, b) => a + b`
 
-const result = tokenizer(`const add = (a, b) => {
-  return a + b
-}`)
-
-console.log(result)
-
-/**
- * 词法分析
- * @param {string} input 
- */
-function tokenizer(input) {
-  
+const compiler = input => {
+  const tokens = tokenizer(input)
+  const ast = parser(tokens)
+  const newAst = transformer(ast)
+  const output = codeGenerator(newAst)
+  return output
 }
+
+const result = compiler(input)
+console.log(result)
